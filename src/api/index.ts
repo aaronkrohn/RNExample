@@ -4,8 +4,8 @@ const sleep = (ms: any) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const login = async () => {
   try {
-    // Simulate a delay of 1000ms
     await sleep(1000);
+
     return {
       emailAddress: 'joe@test.com',
       id: 1,
@@ -25,7 +25,7 @@ type Account = {
 
 let mockAccount: Account | null = null;
 
-export const createAccount = async () => {
+export const createAccount = async (): Promise<Account> => {
   try {
     await sleep(500);
     mockAccount = {
@@ -34,6 +34,7 @@ export const createAccount = async () => {
       status: 'pending',
       version: 'v1',
     };
+
     return mockAccount;
   } catch (error: any) {
     logger.error(error);
@@ -47,7 +48,7 @@ export const resetAccount = async () => {
 
 export const getAccount = async (
   getNewerAccountVersion?: boolean,
-): Promise<Account | null> => {
+): Promise<Account> => {
   try {
     await sleep(500);
 

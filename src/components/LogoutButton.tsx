@@ -12,14 +12,17 @@ import { logoutUser } from '@/redux/actions/userActions';
 export default function LogoutButton() {
   const dispatch = useDispatch();
   const navigation = useNavigation<any>();
+
   const handleLogout = async () => {
     await resetAccount();
-    await queryClient.clear();
-    await dispatch(logoutUser());
+    queryClient.clear();
+    dispatch(logoutUser());
+
     navigation.reset({
       index: 0,
       routes: [{ name: Paths.Login }],
     });
   };
+
   return <Button onPress={handleLogout} title="Logout" />;
 }

@@ -9,11 +9,10 @@ import { SafeScreen } from '@/components/templates';
 import { login } from '@/api';
 import { saveUser } from '@/redux/actions/userActions';
 
-function Login({ navigation, saveUser, user }: any) {
+function Login({ navigation, saveUser, user: { isLoggedIn, name } }: any) {
   const { fonts, layout } = useTheme();
-  const isUserLoggedIn = user?.isLoggedIn;
-  console.log({ isUserLoggedIn });
-  const navigatePostAppLogin = async () => {
+
+  const navigatePostAppLogin = () => {
     navigation.reset({
       index: 0,
       routes: [{ name: Paths.Home }],
@@ -22,13 +21,14 @@ function Login({ navigation, saveUser, user }: any) {
 
   const doLogin = async () => {
     try {
-      if (isUserLoggedIn) {
+      if (isLoggedIn) {
         // Suppose we'll run the biometrics here...
         navigatePostAppLogin();
         return;
       }
       const userData = await login();
       saveUser({ ...userData, isLoggedIn: true });
+
       navigatePostAppLogin();
     } catch (error: any) {
       console.error(error?.message);
@@ -45,10 +45,10 @@ function Login({ navigation, saveUser, user }: any) {
           layout.justifyCenter,
         ]}
       >
-        <Text style={[fonts.size_16, fonts.gray800]}>Hello, {user?.name}</Text>
+        <Text style={[fonts.size_16, fonts.gray800]}>Hello, {name}</Text>
         <Button
           onPress={doLogin}
-          title={isUserLoggedIn ? 'Access your app' : 'Login'}
+          title={isLoggedIn ? 'Access your app' : 'Login'}
         />
       </View>
     </SafeScreen>
