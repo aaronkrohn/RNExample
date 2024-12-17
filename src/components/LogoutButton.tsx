@@ -17,6 +17,7 @@ export default function LogoutButton() {
     await resetAccount();
     queryClient.clear();
     dispatch(logoutUser());
+    // Clear token from keychain
 
     navigation.reset({
       index: 0,

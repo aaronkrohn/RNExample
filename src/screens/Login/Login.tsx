@@ -1,4 +1,5 @@
 import { Button, Text, View } from 'react-native';
+import * as Keychain from 'react-native-keychain';
 import { connect } from 'react-redux';
 
 import { useTheme } from '@/theme';
@@ -27,9 +28,16 @@ function Login({ navigation, saveUser, user: { isLoggedIn, name } }: any) {
         return;
       }
       const userData = await login();
-      saveUser({ ...userData, isLoggedIn: true });
 
-      navigatePostAppLogin();
+      if (userData) {
+        // NOTE: Look to save token return from BE into Keychain
+        // await Keychain.setGenericPassword('auth', userData.token);
+        saveUser({ ...userData, isLoggedIn: true });
+
+        navigatePostAppLogin();
+      }
+
+      throw new Error('Login failed');
     } catch (error: any) {
       console.error(error?.message);
     }

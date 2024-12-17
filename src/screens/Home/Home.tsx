@@ -30,6 +30,7 @@ function Home({ user }: any) {
   const handleCreateAccount = async () => {
     try {
       setStatus({ status: 'loading' });
+      // token would be added to header on all requests to check session validity
       const account = await createAccount();
       console.log({ account });
       setStatus({ status: 'idle' });
