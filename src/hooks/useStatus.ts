@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-type Status = 'idle' | 'loading' | 'error' | 'success';
+type Status = 'error' | 'idle' | 'loading' | 'success';
 type StatusState = {
   status: Status;
   /**
@@ -11,7 +11,7 @@ type StatusState = {
 };
 
 export function useStatus(
-  defaultStatus: StatusState = { status: 'idle', data: null },
+  defaultStatus: StatusState = { data: null, status: 'idle' },
 ) {
   const [state, setState] = useState<StatusState>(defaultStatus);
 

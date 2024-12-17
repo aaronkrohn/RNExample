@@ -9,7 +9,7 @@ import { SafeScreen } from '@/components/templates';
 import { login } from '@/api';
 import { saveUser } from '@/redux/actions/userActions';
 
-function Login({ navigation, user, saveUser }: any) {
+function Login({ navigation, saveUser, user }: any) {
   const { fonts, layout } = useTheme();
   const isUserLoggedIn = user?.isLoggedIn;
   console.log({ isUserLoggedIn });
@@ -47,8 +47,8 @@ function Login({ navigation, user, saveUser }: any) {
       >
         <Text style={[fonts.size_16, fonts.gray800]}>Hello, {user?.name}</Text>
         <Button
-          title={isUserLoggedIn ? 'Access your app' : 'Login'}
           onPress={doLogin}
+          title={isUserLoggedIn ? 'Access your app' : 'Login'}
         />
       </View>
     </SafeScreen>

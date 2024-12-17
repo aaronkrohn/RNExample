@@ -19,7 +19,7 @@ function ApplicationNavigator() {
       <NavigationContainer theme={navigationTheme}>
         <Stack.Navigator
           key={variant}
-          screenOptions={{ headerShown: false, gestureEnabled: true }}
+          screenOptions={{ gestureEnabled: true, headerShown: false }}
         >
           <Stack.Screen component={Login} name={Paths.Login} />
           <Stack.Screen component={Home} name={Paths.Home} />

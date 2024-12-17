@@ -20,4 +20,4 @@ const store = createStore(persistedReducer, applyMiddleware(promise));
 // Create a persistor for the store
 const persistor = persistStore(store);
 
-export { store, persistor };
+export { persistor, store };

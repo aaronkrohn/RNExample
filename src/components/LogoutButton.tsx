@@ -21,5 +21,5 @@ export default function LogoutButton() {
       routes: [{ name: Paths.Login }],
     });
   };
-  return <Button title="Logout" onPress={handleLogout} />;
+  return <Button onPress={handleLogout} title="Logout" />;
 }

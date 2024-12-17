@@ -1,6 +1,6 @@
 export const saveUser = (user: any) => ({
-  type: 'SAVE_USER',
   payload: user,
+  type: 'SAVE_USER',
 });
 export const logoutUser = () => ({
   type: 'LOGOUT',

@@ -7,20 +7,20 @@ export const login = async () => {
     // Simulate a delay of 1000ms
     await sleep(1000);
     return {
+      emailAddress: 'joe@test.com',
       id: 1,
       name: 'Joe Davis',
-      emailAddress: 'joe@test.com',
     };
-  } catch (e: any) {
-    logger.error(e);
+  } catch (error: any) {
+    logger.error(error);
   }
 };
 
 type Account = {
-  status: 'pending' | 'completed';
   balance: number;
-  version: 'v1' | 'v2';
   createdAt: null | number;
+  status: 'completed' | 'pending';
+  version: 'v1' | 'v2';
 };
 
 let mockAccount: Account | null = null;
@@ -29,14 +29,14 @@ export const createAccount = async () => {
   try {
     await sleep(500);
     mockAccount = {
-      status: 'pending',
       balance: 0,
-      version: 'v1',
       createdAt: Date.now(),
+      status: 'pending',
+      version: 'v1',
     };
     return mockAccount;
-  } catch (e: any) {
-    logger.error(e);
+  } catch (error: any) {
+    logger.error(error);
     throw new Error('Failed to create account');
   }
 };
@@ -58,7 +58,7 @@ export const getAccount = async (
     const createdTime = mockAccount?.createdAt || Date.now();
 
     // Simulate status update to "completed" after 10 seconds
-    if (mockAccount.status === 'pending' && Date.now() - createdTime > 10000) {
+    if (mockAccount.status === 'pending' && Date.now() - createdTime > 10_000) {
       mockAccount.status = 'completed';
     }
     if (mockAccount.status === 'completed') {
@@ -69,8 +69,8 @@ export const getAccount = async (
       ...mockAccount,
       version: getNewerAccountVersion ? 'v2' : mockAccount?.version,
     };
-  } catch (e: any) {
-    logger.error(e);
+  } catch (error: any) {
+    logger.error(error);
     throw new Error('Failed to retrieve account');
   }
 };

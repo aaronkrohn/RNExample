@@ -8,13 +8,13 @@ export const calculateBreakdown = (balance: number) => {
   const taxes = (balance * taxRate).toFixed(3);
 
   const availableBalance = Number(
-    (balance - balance * 0.1 - parseFloat(taxes)).toFixed(1),
+    (balance - balance * 0.1 - Number.parseFloat(taxes)).toFixed(1),
   );
 
   return {
-    interest,
-    fees,
-    taxes: taxes,
     availableBalance,
+    fees,
+    interest,
+    taxes,
   };
 };

@@ -23,8 +23,8 @@ function Home({ user }: any) {
     layout,
   } = useTheme();
 
-  const { data: account, isLoading, invalidateAccountQuery } = useAccount();
-  const { status, setStatus } = useStatus();
+  const { data: account, invalidateAccountQuery, isLoading } = useAccount();
+  const { setStatus, status } = useStatus();
   const hasAccount = !!account;
 
   const handleCreateAccount = async () => {
@@ -33,7 +33,7 @@ function Home({ user }: any) {
       const account = await createAccount();
       console.log({ account });
       setStatus({ status: 'idle' });
-    } catch (e) {
+    } catch {
       setStatus({ status: 'error' });
     }
   };
@@ -89,18 +89,18 @@ function Home({ user }: any) {
                 You have no account, yet!
               </Text>
               <Button
+                onPress={handleCreateAccount}
                 title={
                   status === 'loading'
                     ? 'Creating your account...'
                     : 'Create one'
                 }
-                onPress={handleCreateAccount}
               />
             </View>
           )}
           <Button
-            title={'Refresh your account'}
             onPress={invalidateAccountQuery}
+            title={'Refresh your account'}
           />
           <LogoutButton />
         </View>
