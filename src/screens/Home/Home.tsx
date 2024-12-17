@@ -10,7 +10,7 @@ import { SafeScreen } from '@/components/templates';
 import { createAccount } from '@/api';
 import LogoutButton from '@/components/LogoutButton';
 import { logoutUser } from '@/redux/actions/userActions';
-import { calculateBreakdown } from '@/utils';
+import { calculateAccountBreakdown } from '@/utils/calculateAccountBreakdown';
 
 function Home({ user }: any) {
   const {
@@ -39,7 +39,7 @@ function Home({ user }: any) {
     }
   };
 
-  const breakdown = calculateBreakdown(account?.balance || 0);
+  const breakdown = calculateAccountBreakdown(account?.balance || 0);
 
   return (
     <SafeScreen testID="home-screen">

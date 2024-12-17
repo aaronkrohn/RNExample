@@ -1,5 +1,4 @@
 import { Button, Text, View } from 'react-native';
-import * as Keychain from 'react-native-keychain';
 import { connect } from 'react-redux';
 
 import { useTheme } from '@/theme';
