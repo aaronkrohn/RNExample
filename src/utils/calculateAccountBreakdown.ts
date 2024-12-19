@@ -1,4 +1,4 @@
-interface CalculateAccountBreakdown {
+export interface CalculateAccountBreakdown {
   availableBalance: string;
   fees: string;
   interest: string;

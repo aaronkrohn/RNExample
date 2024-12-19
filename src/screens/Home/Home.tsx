@@ -6,6 +6,8 @@ import useAppSelector from '@/hooks/useAppSelector';
 import { useStatus } from '@/hooks/useStatus';
 
 import { SafeScreen } from '@/components/templates';
+import AccountBreakdown from '@/screens/Home/components/AccountBreakdown';
+import AccountDetails from '@/screens/Home/components/AccountDetails';
 
 import { createAccount } from '@/api';
 import LogoutButton from '@/components/LogoutButton';
@@ -26,7 +28,6 @@ function Home() {
   const { data: account, invalidateAccountQuery, isLoading } = useAccount();
   const user = useAppSelector(selectUser);
   const { setStatus, status } = useStatus();
-
   const hasAccount = !!account;
 
   const handleCreateAccount = async () => {
@@ -56,34 +57,19 @@ function Home() {
           ]}
         >
           <Text style={[fonts.size_16, fonts.gray800]}>{user?.name},</Text>
+
           {isLoading ? (
             <Text style={[fonts.size_16, fonts.gray800]}>...</Text>
           ) : null}
 
           {hasAccount ? (
             <View style={[gutters.gap_12]}>
-              <Text style={[fonts.size_16, fonts.gray800]}>
-                You account details:
-              </Text>
-              <Text style={[fonts.size_16, fonts.gray800, fonts.bold]}>
-                Balance: {account?.balance}
-              </Text>
+              <AccountDetails balance={account.balance} />
               <View style={[gutters.gap_12]}>
-                <Text style={[fonts.size_16, fonts.gray800, fonts.capitalize]}>
-                  Breakdown:
-                </Text>
-                <Text style={[fonts.size_16, fonts.gray800, fonts.capitalize]}>
-                  Monthly Interest: {breakdown?.interest}
-                </Text>
-                <Text style={[fonts.size_16, fonts.gray800, fonts.capitalize]}>
-                  Fees: {breakdown?.fees}
-                </Text>
-                <Text style={[fonts.size_16, fonts.gray800, fonts.capitalize]}>
-                  Taxes: {breakdown?.taxes}
-                </Text>
-                <Text style={[fonts.size_16, fonts.gray800, fonts.bold]}>
-                  Available balance: {breakdown?.availableBalance}
-                </Text>
+                <AccountBreakdown
+                  balance={account.balance}
+                  breakdown={breakdown}
+                />
               </View>
             </View>
           ) : (
