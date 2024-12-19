@@ -29,6 +29,7 @@ function Home() {
   const {
     data: account,
     invalidateAccountQuery,
+    isFetchedAfterMount,
     isLoading,
     startPolling,
     stopPolling,
@@ -71,49 +72,56 @@ function Home() {
         >
           <Text style={[fonts.size_16, fonts.gray800]}>{user?.name},</Text>
 
-          {isLoading ? (
-            <Text style={[fonts.size_16, fonts.gray800]}>...</Text>
-          ) : null}
-
-          {hasAccount ? (
+          {isLoading && !isFetchedAfterMount ? (
+            <Text style={[fonts.size_16, fonts.gray800]}>
+              Loading you're account
+            </Text>
+          ) : (
             <>
-              {account?.status === 'completed' ? (
-                <View style={[gutters.gap_12]}>
-                  <AccountDetails balance={account.balance} />
-                  <View style={[gutters.gap_12]}>
-                    <AccountBreakdown
-                      balance={account.balance}
-                      breakdown={breakdown}
-                    />
-                  </View>
-                </View>
+              {hasAccount ? (
+                <>
+                  {account?.status === 'completed' ? (
+                    <View style={[gutters.gap_12]}>
+                      <AccountDetails balance={account.balance} />
+                      <View style={[gutters.gap_12]}>
+                        <AccountBreakdown
+                          balance={account.balance}
+                          breakdown={breakdown}
+                        />
+                      </View>
+
+                      <Button
+                        onPress={invalidateAccountQuery}
+                        title={'Refresh your account'}
+                      />
+                    </View>
+                  ) : (
+                    // Could add skeleton UI loader here
+                    <View style={[gutters.gap_12]}>
+                      <Text style={[fonts.size_16, fonts.gray800]}>
+                        Processing account
+                      </Text>
+                    </View>
+                  )}
+                </>
               ) : (
-                <View style={[gutters.gap_12]}>
+                <View style={[layout.itemsStart]}>
                   <Text style={[fonts.size_16, fonts.gray800]}>
-                    Processing account
+                    You have no account, yet!
                   </Text>
+                  <Button
+                    onPress={handleCreateAccount}
+                    title={
+                      status === 'loading'
+                        ? 'Creating your account...'
+                        : 'Create one'
+                    }
+                  />
                 </View>
               )}
             </>
-          ) : (
-            <View style={[layout.itemsStart]}>
-              <Text style={[fonts.size_16, fonts.gray800]}>
-                You have no account, yet!
-              </Text>
-              <Button
-                onPress={handleCreateAccount}
-                title={
-                  status === 'loading'
-                    ? 'Creating your account...'
-                    : 'Create one'
-                }
-              />
-            </View>
           )}
-          <Button
-            onPress={invalidateAccountQuery}
-            title={'Refresh your account'}
-          />
+
           <LogoutButton />
         </View>
       </ScrollView>

@@ -19,7 +19,7 @@ const useAccount = () => {
   const query = useQuery({
     queryFn,
     queryKey: ['account'],
-    refetchInterval: polling ? 2000 : false, // Dynamically control polling
+    refetchInterval: polling ? 500 : false, // Dynamically control polling
     refetchIntervalInBackground: true, // Keep polling in background
   });
 
