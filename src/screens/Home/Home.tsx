@@ -16,15 +16,7 @@ import { selectUser } from '@/rtk/slice/user';
 import { calculateAccountBreakdown } from '@/utils/calculateAccountBreakdown';
 
 function Home() {
-  const {
-    // backgrounds,
-    // changeTheme,
-    // colors,
-    // components,
-    fonts,
-    gutters,
-    layout,
-  } = useTheme();
+  const { fonts, gutters, layout } = useTheme();
 
   const {
     data: account,
@@ -81,14 +73,13 @@ function Home() {
               {hasAccount ? (
                 <>
                   {account?.status === 'completed' ? (
-                    <View style={[gutters.gap_12]}>
+                    <View style={[gutters.gap_24]}>
                       <AccountDetails balance={account.balance} />
-                      <View style={[gutters.gap_12]}>
-                        <AccountBreakdown
-                          balance={account.balance}
-                          breakdown={breakdown}
-                        />
-                      </View>
+
+                      <AccountBreakdown
+                        balance={account.balance}
+                        breakdown={breakdown}
+                      />
 
                       <Button
                         onPress={invalidateAccountQuery}

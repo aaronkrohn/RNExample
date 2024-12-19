@@ -1,6 +1,6 @@
 import type { CalculateAccountBreakdown } from '@/utils/calculateAccountBreakdown';
 
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 
 import { useTheme } from '@/theme';
 
@@ -10,9 +10,9 @@ interface AccountBreakdownProps {
 }
 
 const AccountBreakdown = ({ balance, breakdown }: AccountBreakdownProps) => {
-  const { fonts } = useTheme();
+  const { fonts, gutters } = useTheme();
   return (
-    <>
+    <View style={[gutters.gap_12]}>
       <Text style={[fonts.size_16, fonts.gray800, fonts.capitalize]}>
         Breakdown:
       </Text>
@@ -28,7 +28,7 @@ const AccountBreakdown = ({ balance, breakdown }: AccountBreakdownProps) => {
       <Text style={[fonts.size_16, fonts.gray800, fonts.bold]}>
         Available balance: {breakdown?.availableBalance}
       </Text>
-    </>
+    </View>
   );
 };
 
