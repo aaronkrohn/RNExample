@@ -1,3 +1,5 @@
+import type { Navigation } from '@/navigation/types';
+
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Button } from 'react-native';
@@ -11,7 +13,7 @@ import { logoutUser } from '@/rtk/slice/user';
 
 export default function LogoutButton() {
   const dispatch = useAppDispatch();
-  const navigation = useNavigation<any>();
+  const navigation = useNavigation<Navigation>();
 
   const handleLogout = async () => {
     await resetAccount();

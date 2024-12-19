@@ -1,3 +1,5 @@
+import type { Navigation } from '@/navigation/types';
+
 import { useNavigation } from '@react-navigation/native';
 import { Button, Text, View } from 'react-native';
 
@@ -14,7 +16,7 @@ import { saveUser, selectUser } from '@/rtk/slice/user';
 function Login() {
   const { fonts, layout } = useTheme();
   const dispatch = useAppDispatch();
-  const navigation = useNavigation();
+  const navigation = useNavigation<Navigation>();
 
   const { isLoggedIn, name } = useAppSelector(selectUser);
 
