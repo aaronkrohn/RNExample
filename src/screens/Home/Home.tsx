@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Button, ScrollView, Text, View } from 'react-native';
 
 import { useTheme } from '@/theme';
@@ -25,17 +26,29 @@ function Home() {
     layout,
   } = useTheme();
 
-  const { data: account, invalidateAccountQuery, isLoading } = useAccount();
+  const {
+    data: account,
+    invalidateAccountQuery,
+    isLoading,
+    startPolling,
+    stopPolling,
+  } = useAccount();
   const user = useAppSelector(selectUser);
   const { setStatus, status } = useStatus();
   const hasAccount = !!account;
+
+  useEffect(() => {
+    if (account?.status === 'completed') {
+      stopPolling();
+    }
+  }, [account?.status, stopPolling]);
 
   const handleCreateAccount = async () => {
     try {
       setStatus({ status: 'loading' });
       // token would be added to header on all requests to check session validity
-      const account = await createAccount();
-      console.log({ account });
+      await createAccount();
+      startPolling();
       setStatus({ status: 'idle' });
     } catch {
       setStatus({ status: 'error' });
@@ -63,15 +76,25 @@ function Home() {
           ) : null}
 
           {hasAccount ? (
-            <View style={[gutters.gap_12]}>
-              <AccountDetails balance={account.balance} />
-              <View style={[gutters.gap_12]}>
-                <AccountBreakdown
-                  balance={account.balance}
-                  breakdown={breakdown}
-                />
-              </View>
-            </View>
+            <>
+              {account?.status === 'completed' ? (
+                <View style={[gutters.gap_12]}>
+                  <AccountDetails balance={account.balance} />
+                  <View style={[gutters.gap_12]}>
+                    <AccountBreakdown
+                      balance={account.balance}
+                      breakdown={breakdown}
+                    />
+                  </View>
+                </View>
+              ) : (
+                <View style={[gutters.gap_12]}>
+                  <Text style={[fonts.size_16, fonts.gray800]}>
+                    Processing account
+                  </Text>
+                </View>
+              )}
+            </>
           ) : (
             <View style={[layout.itemsStart]}>
               <Text style={[fonts.size_16, fonts.gray800]}>

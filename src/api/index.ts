@@ -18,7 +18,7 @@ export const login = async () => {
 
 type Account = {
   balance: number;
-  createdAt: null | number;
+  createdAt: number;
   status: 'completed' | 'pending';
   version: 'v1' | 'v2';
 };
@@ -56,12 +56,14 @@ export const getAccount = async (
       throw new Error('Account not found');
     }
 
-    const createdTime = mockAccount?.createdAt || Date.now();
-
     // Simulate status update to "completed" after 10 seconds
-    if (mockAccount.status === 'pending' && Date.now() - createdTime > 10_000) {
+    if (
+      mockAccount.status === 'pending' &&
+      Date.now() - mockAccount?.createdAt > 10_000
+    ) {
       mockAccount.status = 'completed';
     }
+
     if (mockAccount.status === 'completed') {
       mockAccount.balance = mockAccount?.balance + 100;
     }
