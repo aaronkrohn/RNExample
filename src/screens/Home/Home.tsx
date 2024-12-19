@@ -1,30 +1,32 @@
 import { Button, ScrollView, Text, View } from 'react-native';
-import { connect } from 'react-redux';
 
 import { useTheme } from '@/theme';
 import useAccount from '@/hooks/useAccount';
+import useAppSelector from '@/hooks/useAppSelector';
 import { useStatus } from '@/hooks/useStatus';
 
 import { SafeScreen } from '@/components/templates';
 
 import { createAccount } from '@/api';
 import LogoutButton from '@/components/LogoutButton';
-import { logoutUser } from '@/redux/actions/userActions';
+import { selectUser } from '@/rtk/slice/user';
 import { calculateAccountBreakdown } from '@/utils/calculateAccountBreakdown';
 
-function Home({ user }: any) {
+function Home() {
   const {
-    backgrounds,
-    changeTheme,
-    colors,
-    components,
+    // backgrounds,
+    // changeTheme,
+    // colors,
+    // components,
     fonts,
     gutters,
     layout,
   } = useTheme();
 
   const { data: account, invalidateAccountQuery, isLoading } = useAccount();
+  const user = useAppSelector(selectUser);
   const { setStatus, status } = useStatus();
+
   const hasAccount = !!account;
 
   const handleCreateAccount = async () => {
@@ -110,11 +112,4 @@ function Home({ user }: any) {
   );
 }
 
-const mapStateToProps = (state: any) => ({
-  user: state.user,
-});
-const mapDispatchToProps = {
-  logoutUser,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default Home;

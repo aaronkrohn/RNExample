@@ -9,7 +9,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { ThemeProvider } from '@/theme';
 import ApplicationNavigator from '@/navigation/Application';
 
-import { persistor, store } from '@/redux/store';
+import store, { persistor } from '@/rtk/store';
 
 export const queryClient = new QueryClient({
   defaultOptions: {

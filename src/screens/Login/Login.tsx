@@ -1,16 +1,22 @@
+import { useNavigation } from '@react-navigation/native';
 import { Button, Text, View } from 'react-native';
-import { connect } from 'react-redux';
 
 import { useTheme } from '@/theme';
+import useAppDispatch from '@/hooks/useAppDispatch';
+import useAppSelector from '@/hooks/useAppSelector';
 import { Paths } from '@/navigation/paths';
 
 import { SafeScreen } from '@/components/templates';
 
 import { login } from '@/api';
-import { saveUser } from '@/redux/actions/userActions';
+import { saveUser, selectUser } from '@/rtk/slice/user';
 
-function Login({ navigation, saveUser, user: { isLoggedIn, name } }: any) {
+function Login() {
   const { fonts, layout } = useTheme();
+  const dispatch = useAppDispatch();
+  const navigation = useNavigation();
+
+  const { isLoggedIn, name } = useAppSelector(selectUser);
 
   const navigatePostAppLogin = () => {
     navigation.reset({
@@ -31,7 +37,7 @@ function Login({ navigation, saveUser, user: { isLoggedIn, name } }: any) {
       if (userData) {
         // NOTE: Look to save token return from BE into Keychain
         // await Keychain.setGenericPassword('auth', userData.token);
-        saveUser({ ...userData, isLoggedIn: true });
+        dispatch(saveUser(userData));
 
         navigatePostAppLogin();
       }
@@ -62,12 +68,4 @@ function Login({ navigation, saveUser, user: { isLoggedIn, name } }: any) {
   );
 }
 
-const mapStateToProps = (state: any) => ({
-  user: state.user,
-});
-
-const mapDispatchToProps = {
-  saveUser,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default Login;

@@ -1,16 +1,16 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Button } from 'react-native';
-import { useDispatch } from 'react-redux';
 
+import useAppDispatch from '@/hooks/useAppDispatch';
 import { Paths } from '@/navigation/paths';
 
 import { resetAccount } from '@/api';
 import { queryClient } from '@/App';
-import { logoutUser } from '@/redux/actions/userActions';
+import { logoutUser } from '@/rtk/slice/user';
 
 export default function LogoutButton() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigation = useNavigation<any>();
 
   const handleLogout = async () => {
