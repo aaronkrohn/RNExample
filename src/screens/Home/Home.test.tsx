@@ -11,6 +11,34 @@ import { rootReducer } from '@/rtk/store';
 
 import Home from './Home';
 
+// Mock the useNavigation hook
+jest.mock('@react-navigation/native', () => {
+  return {
+    useNavigation: jest.fn(),
+  };
+});
+
+jest.mock('@react-navigation/native', () => {
+  const originalModule = jest.requireActual('@react-navigation/native');
+  return {
+    ...originalModule,
+    NavigationContainer: ({ children, theme }) => (
+      <div>{children}</div> // Just render the children to avoid rendering the actual container
+    ),
+  };
+});
+
+// Mock the useDispatch hook
+jest.mock('react-redux', () => ({
+  ...jest.requireActual('react-redux'),
+  useDispatch: jest.fn(),
+}));
+
+jest.mock('@react-navigation/native', () => ({
+  ...jest.requireActual('@react-navigation/native'),
+  useNavigation: jest.fn(), // Mock useNavigation to return a mock function
+}));
+
 describe('Home screen should render correctly', () => {
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -33,15 +61,15 @@ describe('Home screen should render correctly', () => {
     });
 
     const component = (
-      <Provider store={mockStore}>
-        <SafeAreaProvider>
-          <ThemeProvider storage={storage}>
-            <QueryClientProvider client={queryClient}>
+      <SafeAreaProvider>
+        <Provider store={mockStore}>
+          <QueryClientProvider client={queryClient}>
+            <ThemeProvider storage={storage}>
               <Home />
-            </QueryClientProvider>
-          </ThemeProvider>
-        </SafeAreaProvider>
-      </Provider>
+            </ThemeProvider>
+          </QueryClientProvider>
+        </Provider>
+      </SafeAreaProvider>
     );
 
     const { getByTestId } = render(component);
