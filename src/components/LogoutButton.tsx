@@ -10,6 +10,7 @@ import { Paths } from '@/navigation/paths';
 import { resetAccount } from '@/api';
 import { queryClient } from '@/App';
 import { logoutUser } from '@/rtk/slice/user';
+import { persistor } from '@/rtk/store';
 
 export default function LogoutButton() {
   const dispatch = useAppDispatch();
@@ -17,8 +18,9 @@ export default function LogoutButton() {
 
   const handleLogout = async () => {
     await resetAccount();
-    queryClient.clear();
+    await persistor.purge();
     dispatch(logoutUser());
+    queryClient.clear();
     // Clear token from keychain
 
     navigation.reset({
